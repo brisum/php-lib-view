@@ -25,8 +25,10 @@ class View
      */
     public function render($template, array $vars = [])
     {
+        /* Use unique name of template path for avoiding overwrite $template variable by extract $vars */
+        $brisumLibViewTemplate = $this->dirTemplate . $template;
         extract($vars);
-        require $this->dirTemplate . $template;
+        require $brisumLibViewTemplate;
     }
 
     /**
@@ -38,9 +40,6 @@ class View
     {
         ob_start();
         $this->render($template, $vars);
-        $content = ob_get_contents();
-        ob_clean();
-
-        return $content;
+        return ob_get_clean();
     }
 }
